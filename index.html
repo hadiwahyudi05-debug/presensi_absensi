@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sistem Absensi QR Code Siswa & Guru - Secure Enterprise V3.0</title>
   
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Tailwind CSS Static CDN (Bebas Warning Production Console) -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
   
   <!-- Font Inter -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -78,16 +78,16 @@
         </div>
 
         <button type="submit" class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-lg shadow-indigo-600/20 transition flex items-center justify-center gap-2">
-          <i data-lucide="log-in" class="w-5 h-5"></i> Masuk
+          <i data-lucide="log-in" class="w-5 h-5"></i> Masuk Sistem
         </button>
       </form>
       
       <div class="mt-6 p-4 bg-slate-50 rounded-xl border border-slate-200 text-xs text-slate-600">
-        <p class="font-bold text-slate-800 mb-2">Akun Demo Standar:</p>
+        <p class="font-bold text-slate-800 mb-2">Akun Bawaan Default:</p>
         <div class="grid grid-cols-1 gap-2">
           <div class="flex justify-between items-center border-b pb-1"><span>Superadmin</span> <code class="bg-slate-200 px-1 rounded">superadmin / admin123</code></div>
           <div class="flex justify-between items-center border-b pb-1"><span>Admin Sekolah</span> <code class="bg-slate-200 px-1 rounded">admin / admin123</code></div>
-          <div class="flex justify-between items-center"><span>Guru Binaan</span> <code class="bg-slate-200 px-1 rounded">guru / guru123</code></div>
+          <div class="flex justify-between items-center"><span>Guru Walikelas</span> <code class="bg-slate-200 px-1 rounded">guru / guru123</code></div>
         </div>
       </div>
     </div>
@@ -100,7 +100,7 @@
         <i data-lucide="key-round" class="w-6 h-6"></i>
       </div>
       <h3 class="text-lg font-bold text-center text-slate-800 mb-2">Reset Password</h3>
-      <p class="text-xs text-center text-slate-500 mb-5">Masukkan email atau NIP/NISN yang terdaftar. Sistem akan memverifikasi dan mengirimkan akses pemulihan.</p>
+      <p class="text-xs text-center text-slate-500 mb-5">Masukkan email atau NIP/NISN terdaftar untuk mengirim instruksi pemulihan.</p>
       
       <input type="text" id="resetInput" placeholder="Email / NIP / Username" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-indigo-500 mb-4">
       
@@ -193,7 +193,7 @@
           <label class="block text-xs font-semibold text-slate-700 mb-1">Kelas / Rombel</label>
           <input type="text" id="inputKelas" required class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-indigo-500">
         </div>
-        <button type="submit" class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold rounded-xl transition">Simpan Data</button>
+        <button type="submit" class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold rounded-xl transition">Simpan Data Siswa</button>
       </form>
     </div>
   </div>
@@ -226,12 +226,12 @@
   <!-- MODAL TAMPIL QR CODE -->
   <div id="modalQRCode" class="hidden fixed inset-0 z-[115] flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
     <div class="bg-white rounded-2xl max-w-xs w-full p-6 shadow-xl text-center transform transition-all">
-      <div class="flex items-center justify-between mb-4">
-        <h3 id="qrModalTitle" class="text-base font-bold text-slate-800 truncate">QR Code</h3>
+      <div class="flex items-center justify-between mb-4 border-b pb-2">
+        <h3 id="qrModalTitle" class="text-base font-bold text-slate-800 truncate">QR Code Siswa</h3>
         <button onclick="closeQRCode()" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
       </div>
       <div id="qrCodeContainer" class="flex justify-center p-4 bg-white border border-slate-200 rounded-xl mb-4 mx-auto min-h-[200px] min-w-[200px]"></div>
-      <p class="text-xs text-slate-500 mb-4">Gunakan QR Code ini pada menu scanner absensi.</p>
+      <p class="text-xs text-slate-500 mb-4">Gunakan QR Code ini pada scanner absensi sekolah.</p>
       <button onclick="closeQRCode()" class="w-full py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-medium rounded-xl transition">Tutup</button>
     </div>
   </div>
@@ -239,11 +239,11 @@
   <!-- ALERT MODAL NOTIFICATION -->
   <div id="alertModal" class="hidden fixed inset-0 z-[120] flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
     <div class="bg-white rounded-2xl max-w-sm w-full p-6 text-center shadow-xl transform transition-all scale-100">
-      <div id="alertIcon" class="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center bg-blue-100 text-blue-600">
+      <div id="alertIcon" class="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center bg-indigo-100 text-indigo-600">
         <i data-lucide="info" class="w-8 h-8"></i>
       </div>
       <h3 id="alertTitle" class="text-lg font-bold text-slate-800 mb-2">Pemberitahuan</h3>
-      <p id="alertMessage" class="text-sm text-slate-600 mb-6">Pesan peringatan sistem.</p>
+      <p id="alertMessage" class="text-sm text-slate-600 mb-6">Pesan pemberitahuan sistem.</p>
       <button onclick="closeAlert()" class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-xl transition">
         Mengerti
       </button>
@@ -259,7 +259,7 @@
         </div>
         <div>
           <h1 class="font-bold text-base text-white leading-tight">Presensi Secure</h1>
-          <p class="text-xs text-slate-400">Enterprise Edition V3</p>
+          <p class="text-xs text-slate-400">Enterprise Edition V3.0</p>
         </div>
       </div>
     </div>
@@ -342,7 +342,7 @@
       <div class="text-center text-slate-500">
         <p>Sistem Absensi Secure v3.0</p>
         <p class="mt-1 flex items-center justify-center gap-1 text-slate-400">
-          <i data-lucide="lock" class="w-3 h-3 text-emerald-400"></i> Encrypted
+          <i data-lucide="lock" class="w-3 h-3 text-emerald-400"></i> Terenkripsi & Validated
         </p>
       </div>
     </div>
@@ -377,7 +377,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
             <div>
-              <p class="text-xs text-slate-500 font-medium">Total Siswa</p>
+              <p class="text-xs text-slate-500 font-medium">Total Siswa Terdaftar</p>
               <h3 id="statTotalSiswa" class="text-2xl font-bold text-slate-800 mt-1">0</h3>
             </div>
             <div class="p-3 bg-blue-50 text-blue-600 rounded-xl">
@@ -439,16 +439,15 @@
         </div>
       </section>
 
-      <!-- 2. SCANNER QR & LOG PRESENSI (COMBINED) -->
+      <!-- 2. SCANNER QR & LOG PRESENSI -->
       <section id="tab-scan" class="tab-content hidden space-y-6">
-        <!-- Banner Pemilih Sesi Presensi Aktif -->
         <div class="bg-white p-5 rounded-2xl border border-indigo-200 shadow-sm">
           <div class="flex flex-wrap items-center justify-between gap-4 mb-3">
             <div>
               <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
                 <i data-lucide="clock" class="w-5 h-5 text-indigo-600"></i> Sesi Presensi Aktif
               </h3>
-              <p class="text-xs text-slate-500">Pilih sesi presensi. Presensi yang discan akan otomatis dicatat ke sesi ini.</p>
+              <p class="text-xs text-slate-500">Pilih sesi presensi. Data scan akan dicatat pada sesi yang terpilih.</p>
             </div>
             <span class="text-xs font-bold text-indigo-700 bg-indigo-50 px-3 py-1.5 rounded-xl border border-indigo-100 flex items-center gap-1.5">
               <i data-lucide="check-circle" class="w-4 h-4 text-indigo-600"></i> Sesi Aktif: <strong id="labelSesiAktif">Jam Masuk</strong>
@@ -483,13 +482,12 @@
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          <!-- Area Scanner Kamera (Left Side) -->
+          <!-- Area Scanner Kamera (Left) -->
           <div class="lg:col-span-5 space-y-6">
             <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
               <div class="flex items-center justify-between">
                 <h3 class="text-base font-bold text-slate-800 flex items-center gap-2">
-                  <i data-lucide="camera" class="w-5 h-5 text-indigo-600"></i>
-                  Kamera Scanner
+                  <i data-lucide="camera" class="w-5 h-5 text-indigo-600"></i> Kamera Scanner
                 </h3>
                 <div class="flex items-center gap-2">
                   <button id="speechToggleBtn" onclick="toggleVoiceSpeech()" class="text-xs px-2.5 py-1 rounded-lg border font-semibold flex items-center gap-1 bg-emerald-50 text-emerald-700 border-emerald-200">
@@ -499,7 +497,6 @@
                 </div>
               </div>
 
-              <!-- Area Camera Reader -->
               <div id="reader" class="overflow-hidden rounded-xl bg-slate-900 border border-slate-800 min-h-[260px] flex items-center justify-center text-slate-400"></div>
 
               <div class="flex gap-2">
@@ -512,7 +509,7 @@
               </div>
             </div>
 
-            <!-- Validation GPS & Manual Input -->
+            <!-- GPS Validation & Manual Input -->
             <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
               <h4 class="font-bold text-slate-800 text-xs uppercase text-slate-400">Validasi GPS & Input Manual</h4>
               <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs space-y-1 font-mono">
@@ -523,7 +520,7 @@
 
               <div id="titipWarning" class="hidden p-3 bg-rose-50 border border-rose-200 rounded-xl text-xs text-rose-700 flex items-center gap-2">
                 <i data-lucide="alert-triangle" class="w-4 h-4 flex-shrink-0"></i>
-                <span>Di luar radius aman! Presensi akan tercatat dengan indikasi peringatan.</span>
+                <span>Di luar radius aman sekolah! Presensi diberi tanda khusus.</span>
               </div>
 
               <div class="pt-2">
@@ -538,21 +535,17 @@
             </div>
           </div>
 
-          <!-- Table Log Presensi Real-Time (Right Side) -->
+          <!-- Log Presensi Table (Right) -->
           <div class="lg:col-span-7 bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
             <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
               <h3 class="text-base font-bold text-slate-800 flex items-center gap-2">
-                <i data-lucide="clipboard-list" class="w-5 h-5 text-indigo-600"></i>
-                Log Presensi Real-Time
+                <i data-lucide="clipboard-list" class="w-5 h-5 text-indigo-600"></i> Log Presensi Real-Time
               </h3>
-              <div class="flex items-center gap-2">
-                <button onclick="exportLogCSV()" class="px-3 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 rounded-xl text-xs font-bold transition flex items-center gap-1">
-                  <i data-lucide="download" class="w-3.5 h-3.5"></i> Ekspor CSV
-                </button>
-              </div>
+              <button onclick="exportLogCSV()" class="px-3 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 rounded-xl text-xs font-bold transition flex items-center gap-1">
+                <i data-lucide="download" class="w-3.5 h-3.5"></i> Ekspor CSV
+              </button>
             </div>
 
-            <!-- Search & Filter Log -->
             <div class="flex gap-2">
               <input type="text" id="searchLog" onkeyup="renderLogTable()" placeholder="Cari nama atau ID NISN..." class="flex-1 px-3 py-2 text-xs border border-slate-200 rounded-xl focus:outline-none focus:border-indigo-500">
               <select id="filterLogSesi" onchange="renderLogTable()" class="px-3 py-2 text-xs border border-slate-200 rounded-xl focus:outline-none focus:border-indigo-500">
@@ -586,21 +579,21 @@
         <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-wrap items-center justify-between gap-4">
           <div>
             <h3 class="text-lg font-bold text-slate-800">Kelola Data Siswa</h3>
-            <p class="text-xs text-slate-500">Tambah, impor CSV, atau atur foto masal siswa sekolah.</p>
+            <p class="text-xs text-slate-500">Tambah, impor CSV, atau unggah foto masal siswa.</p>
           </div>
           <div class="flex flex-wrap gap-2">
             <button onclick="downloadTemplateSiswaCSV()" class="px-3 py-2 bg-slate-100 text-slate-700 text-xs font-bold rounded-xl hover:bg-slate-200 transition flex items-center gap-1 border border-slate-300">
               <i data-lucide="file-text" class="w-4 h-4"></i> Template CSV
             </button>
             <button onclick="openModalSiswa()" class="px-3 py-2 bg-indigo-600 text-white text-xs font-bold rounded-xl hover:bg-indigo-700 transition flex items-center gap-1">
-              <i data-lucide="plus" class="w-4 h-4"></i> Tambah
+              <i data-lucide="plus" class="w-4 h-4"></i> Tambah Siswa
             </button>
             <label class="px-3 py-2 bg-emerald-600 text-white text-xs font-bold rounded-xl hover:bg-emerald-700 transition cursor-pointer flex items-center gap-1">
               <i data-lucide="upload" class="w-4 h-4"></i> Impor CSV
               <input type="file" accept=".csv" class="hidden" onchange="importSiswaCSV(event)">
             </label>
             <label class="px-3 py-2 bg-purple-600 text-white text-xs font-bold rounded-xl hover:bg-purple-700 transition cursor-pointer flex items-center gap-1">
-              <i data-lucide="image" class="w-4 h-4"></i> Unggah Foto Masal
+              <i data-lucide="image" class="w-4 h-4"></i> Foto Masal
               <input type="file" accept="image/*" multiple class="hidden" onchange="uploadFotoMasal(event)">
             </label>
           </div>
@@ -632,8 +625,8 @@
       <section id="tab-guru" class="tab-content hidden space-y-6">
         <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-wrap items-center justify-between gap-4">
           <div>
-            <h3 class="text-lg font-bold text-slate-800">Data Guru & Penugasan</h3>
-            <p class="text-xs text-slate-500">Kelola direktori guru binaan dan walikelas.</p>
+            <h3 class="text-lg font-bold text-slate-800">Data Guru & Binaan</h3>
+            <p class="text-xs text-slate-500">Kelola guru binaan dan walikelas.</p>
           </div>
           <div class="flex flex-wrap gap-2">
             <button onclick="downloadTemplateGuruCSV()" class="px-3 py-2 bg-slate-100 text-slate-700 text-xs font-bold rounded-xl hover:bg-slate-200 transition flex items-center gap-1 border border-slate-300">
@@ -643,7 +636,7 @@
               <i data-lucide="plus" class="w-4 h-4"></i> Tambah Guru
             </button>
             <label class="px-3 py-2 bg-emerald-600 text-white text-xs font-bold rounded-xl hover:bg-emerald-700 transition cursor-pointer flex items-center gap-1">
-              <i data-lucide="upload" class="w-4 h-4"></i> Impor CSV Guru
+              <i data-lucide="upload" class="w-4 h-4"></i> Impor CSV
               <input type="file" accept=".csv" class="hidden" onchange="importGuruCSV(event)">
             </label>
           </div>
@@ -671,7 +664,7 @@
         <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-wrap items-center justify-between gap-4">
           <div>
             <h3 class="text-lg font-bold text-slate-800">Kalender Pendidikan & Agenda</h3>
-            <p class="text-xs text-slate-500">Kelola jadwal ujian, kegiatan sekolah, dan hari libur nasional.</p>
+            <p class="text-xs text-slate-500">Kelola jadwal kegiatan sekolah dan hari libur nasional.</p>
           </div>
           <button onclick="openModalAgenda()" class="px-4 py-2 bg-indigo-600 text-white text-xs font-bold rounded-xl hover:bg-indigo-700 transition flex items-center gap-1">
             <i data-lucide="plus" class="w-4 h-4"></i> Tambah Agenda
@@ -732,13 +725,13 @@
             <div class="h-60"><canvas id="chartSesiDistribusi"></canvas></div>
           </div>
           <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
-            <h4 class="font-bold text-slate-800 text-sm mb-4">Peringatan Deteksi Otomatis System</h4>
+            <h4 class="font-bold text-slate-800 text-sm mb-4">Peringatan Deteksi Otomatis Sistem</h4>
             <div id="containerAnomaliList" class="space-y-2 max-h-[240px] overflow-y-auto scrollbar-thin text-xs"></div>
           </div>
         </div>
       </section>
 
-      <!-- 7. REKAP & LAPORAN (5 HARI KERJA AKTIF & DUAL SIGNATURE) -->
+      <!-- 7. REKAP & LAPORAN -->
       <section id="tab-rekap" class="tab-content hidden space-y-6">
         <div class="no-print bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-wrap items-center justify-between gap-4">
           <div>
@@ -762,7 +755,7 @@
 
         <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-6 print:shadow-none print:border-none print:p-0">
           <div class="text-center border-b pb-4">
-            <h2 id="rekapHeaderSekolah" class="text-lg font-extrabold uppercase tracking-wide text-slate-800">SMK NEGERI 1 SEKO LAH SECURE</h2>
+            <h2 id="rekapHeaderSekolah" class="text-lg font-extrabold uppercase tracking-wide text-slate-800">SMK NEGERI 1 SEKOLAH SECURE</h2>
             <p id="rekapHeaderAlamat" class="text-xs text-slate-500">Jl. Education No. 123, Cirebon - Jawa Barat</p>
             <h3 class="text-sm font-bold text-indigo-600 mt-2 uppercase underline tracking-wider">REKAPITULASI PRESENSI SISWA (5 HARI KERJA)</h3>
           </div>
@@ -785,7 +778,7 @@
             </table>
           </div>
 
-          <!-- LEMBAR PENGESAHAN TANDA TANGAN DUAL -->
+          <!-- LEMBAR PENGESAHAN DUAL TANDA TANGAN -->
           <div class="pt-8 grid grid-cols-2 gap-8 text-center text-xs text-slate-800 font-medium break-inside-avoid">
             <div>
               <p>Mengetahui,</p>
@@ -847,7 +840,6 @@
           </div>
         </div>
 
-        <!-- Container Grid Cetak Kartu -->
         <div id="containerKartuGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
       </section>
 
@@ -899,7 +891,6 @@
 
       <!-- 10. SECURITY & INTEGRASI -->
       <section id="tab-setting" class="tab-content hidden space-y-6">
-        <!-- Manajemen Akun Pengguna & Password -->
         <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
           <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-100 pb-4">
             <div>
@@ -933,7 +924,7 @@
           <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
             <i data-lucide="database" class="w-6 h-6 text-indigo-600"></i> Status Penyimpanan Data & Integrasi Cloud
           </h3>
-          <p class="text-xs text-slate-600">Data presensi disimpan di memori lokal browser (*LocalStorage*) dan otomatis dikirim ke Google Sheets jika URL Webhook Apps Script diisi.</p>
+          <p class="text-xs text-slate-600">Data presensi tersimpan lokal dan dapat disinkronkan ke Google Sheets menggunakan Google Apps Script Webhook.</p>
           
           <div class="p-4 bg-slate-50 rounded-xl space-y-3">
             <div>
@@ -950,14 +941,12 @@
     </div>
   </main>
 
-
   <script>
-    // --- GLOBAL VARIABLES & DATA STORE ---
+    // --- GLOBAL DATA STORE ---
     let html5QrcodeScanner = null;
     let currentUserRole = null;
     let speechEnabled = true;
 
-    // Database Credentials
     let userCredentials = {
       'superadmin': { pass: 'admin123', role: 'superadmin', name: 'Bapak Kepala / IT' },
       'admin': { pass: 'admin123', role: 'admin', name: 'Admin Tata Usaha' },
@@ -979,13 +968,12 @@
       { tanggal: '2026-10-30', judul: 'Ujian Tengah Semester', jenis: 'kegiatan' }
     ];
 
-    let currentKalenderDate = new Date(2026, 9, 1); // Oktober 2026
+    let currentKalenderDate = new Date(2026, 9, 1);
     const targetSchoolGPS = { lat: -6.7321, lng: 108.5521 };
     let userCurrentGPS = { lat: -6.7321, lng: 108.5521 };
     let aktifSesi = 'Jam Masuk';
     let customKartuBg = null;
 
-    // --- INITIALIZATION ---
     window.onload = function() {
       lucide.createIcons();
       initGPS();
@@ -995,7 +983,7 @@
       }, 1000);
     };
 
-    // --- USER MANAGEMENT SYSTEM ---
+    // --- USER MANAGEMENT ---
     function renderUsersTable() {
       const tbody = document.getElementById('tableUsersBody');
       if (!tbody) return;
@@ -1068,36 +1056,28 @@
         return showAlert('Gagal', 'Username sudah digunakan oleh akun lain!');
       }
 
-      userCredentials[username] = {
-        pass: password,
-        role: role,
-        name: nama
-      };
-
+      userCredentials[username] = { pass: password, role: role, name: nama };
       closeModalUser();
       renderUsersTable();
       showAlert('Berhasil', `Akun pengguna ${username} berhasil disimpan.`);
     }
 
     function hapusUser(username) {
-      if (username === 'superadmin') {
-        return showAlert('Ditolak', 'Akun Superadmin utama tidak dapat dihapus.');
-      }
-      if (confirm(`Yakin ingin menghapus akun user "${username}"?`)) {
+      if (username === 'superadmin') return showAlert('Ditolak', 'Akun Superadmin utama tidak dapat dihapus.');
+      if (confirm(`Yakin ingin menghapus akun "${username}"?`)) {
         delete userCredentials[username];
         renderUsersTable();
         showAlert('Berhasil', 'User pengguna berhasil dihapus.');
       }
     }
 
-    // --- AUTHENTICATION & LOGIN ---
+    // --- AUTHENTICATION ---
     function handleLogin(e) {
       e.preventDefault();
       const userVal = document.getElementById('loginUsername').value.trim();
       const passVal = document.getElementById('loginPassword').value;
 
       const user = userCredentials[userVal];
-      
       if (user && user.pass === passVal) {
         currentUserRole = user.role;
         document.getElementById('loginScreen').classList.add('hidden');
@@ -1117,7 +1097,7 @@
         renderUsersTable();
         initCharts();
       } else {
-        showAlert('Login Gagal', 'Username atau password salah. Cek huruf besar/kecil.');
+        showAlert('Login Gagal', 'Username atau password salah.');
       }
     }
 
@@ -1130,10 +1110,7 @@
 
     function showForgotPassword() { document.getElementById('forgotPasswordModal').classList.remove('hidden'); }
     function closeForgotPassword() { document.getElementById('forgotPasswordModal').classList.add('hidden'); }
-    function processResetPassword() {
-      closeForgotPassword();
-      showAlert('Reset Password', 'Instruksi reset password telah dikirim ke admin sistem.');
-    }
+    function processResetPassword() { closeForgotPassword(); showAlert('Reset Password', 'Instruksi reset password dikirim ke admin.'); }
 
     function changeRole(role) {
       document.getElementById('roleBadge').innerText = role.toUpperCase();
@@ -1152,9 +1129,7 @@
       const targetTab = document.getElementById(tabId);
       if (targetTab) targetTab.classList.remove('hidden');
 
-      if (tabId === 'tab-setting') {
-        renderUsersTable();
-      }
+      if (tabId === 'tab-setting') renderUsersTable();
 
       document.querySelectorAll('.nav-btn').forEach(btn => {
         if (btn.getAttribute('data-tab') === tabId) {
@@ -1285,10 +1260,7 @@
       let csv = "Waktu,ID_NISN,Nama,Status_Sesi,GPS_Validasi\n";
       logPresensi.forEach(l => { csv += `"${l.waktu}","${l.id}","${l.nama}","${l.status}","${l.gps}"\n`; });
       const blob = new Blob([csv], { type: 'text/csv' });
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = `Log_Presensi_${new Date().toISOString().slice(0,10)}.csv`;
-      a.click();
+      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `Log_Presensi_${new Date().toISOString().slice(0,10)}.csv`; a.click();
     }
 
     // --- DATA SISWA & GURU ---
@@ -1330,10 +1302,7 @@
     }
 
     function hapusSiswa(nisn) {
-      if (confirm('Hapus siswa ini?')) {
-        siswaData = siswaData.filter(s => s.nisn !== nisn);
-        renderSiswaTable();
-      }
+      if (confirm('Hapus siswa ini?')) { siswaData = siswaData.filter(s => s.nisn !== nisn); renderSiswaTable(); }
     }
 
     function downloadTemplateSiswaCSV() {
@@ -1353,7 +1322,7 @@
           if (p.length >= 3) siswaData.push({ nisn: p[0].trim(), nama: p[1].trim(), kelas: p[2].trim(), foto: `https://placehold.co/100x120/indigo/white?text=${p[1].trim().charAt(0)}` });
         }
         renderSiswaTable();
-        showAlert('Impor Berhasil', 'Data siswa dari CSV berhasil dimasukkan.');
+        showAlert('Impor Berhasil', 'Data siswa berhasil dimasukkan.');
       };
       reader.readAsText(file);
     }
@@ -1599,7 +1568,7 @@
       document.getElementById('alertModal').classList.remove('hidden');
     }
     function closeAlert() { document.getElementById('alertModal').classList.add('hidden'); }
-    function saveGoogleConfig() { showAlert('Saved', 'Webhook URL berhasil disimpan.'); }
+    function saveGoogleConfig() { showAlert('Tersimpan', 'Webhook URL berhasil disimpan.'); }
   </script>
 </body>
 </html>
