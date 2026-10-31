@@ -970,16 +970,37 @@ Kartu ini tidak boleh dipindahtangankan.</textarea>
       }
     }
 
+    // Perbaikan struktur: Hanya ada SATU fungsi processPresensi
     function processPresensi(code) {
       const siswa = siswaData.find(s => s.nisn === code);
       const time = new Date().toLocaleTimeString('id-ID');
       
       if(siswa) {
-        // Prevent duplicate scan within the exact same minute roughly to prevent spam
+        // Mencegah scan ganda pada sesi yang sama
         const alreadyScanned = logPresensi.some(l => l.id === code && l.status.includes(aktifSesi));
+        
         if(!alreadyScanned){
+          // 1. Simpan ke tabel HTML Realtime
           logPresensi.unshift({ waktu: time, id: code, nama: siswa.nama, status: `Hadir (${aktifSesi})` });
           renderLogTable();
+
+          // 2. Integrasi Webhook Google Sheets
+          const payload = { 
+            waktu: time,
+            nisn: code, 
+            nama: siswa.nama, 
+            sesi: aktifSesi,
+            token: "SECURE_PRESENSI_TOKEN_2026"
+          };
+          
+          fetch("https://script.google.com/macros/s/AKfycbxCPfuvSj88CaKHOV-mg9IHHGwMhHsGIQi6MClt7uahhK0VQanpcfMPsxt92RMS72PL/exec", {
+            method: "POST",
+            body: JSON.stringify(payload)
+          })
+          .then(response => console.log("Data sukses terkirim"))
+          .catch(error => console.error("Error Webhook:", error));
+
+          // 3. Notifikasi
           speakVoice(`Terima kasih, ${siswa.nama}. Presensi ${aktifSesi} berhasil direkam.`);
           showAlert('Sukses', `Data ${siswa.nama} berhasil direkam untuk sesi ${aktifSesi}.`);
         } else {
@@ -1087,7 +1108,7 @@ Kartu ini tidak boleh dipindahtangankan.</textarea>
       closeModalGuru(); renderGuruTable(); showAlert('Berhasil', 'Guru ditambahkan.');
     }
 
-    // --- MANAJEMEN USER & PASSWORD (FULL WORKING) ---
+    // --- MANAJEMEN USER & PASSWORD ---
     function renderUsersTable() {
       const tbody = document.getElementById('tableUsersBody');
       if (!tbody) return;
@@ -1448,6 +1469,7 @@ Kartu ini tidak boleh dipindahtangankan.</textarea>
       a.click();
     }
 
+    // Perbaikan struktur: Menutup fungsi dengan sempurna
     function importSiswaCSV(event) {
       const file = event.target.files[0];
       if (!file) return;
@@ -1458,9 +1480,11 @@ Kartu ini tidak boleh dipindahtangankan.</textarea>
         for(let i = 1; i < lines.length; i++) {
           const parts = lines[i].split(',');
           if(parts.length >= 3) {
-            const nisn = parts[0].trim(), nama = parts[1].trim(), kelas = parts[2].trim();
-            if(nisn && !siswaData.find(s => s.nisn === nisn)) {
-              siswaData.push({ nisn, nama, kelas, foto: 'https://placehold.co/100x120/indigo/white?text=' + nama.charAt(0) });
+            const nisn = parts[0].replace(/"/g, '').trim();
+            const nama = parts[1].replace(/"/g, '').trim();
+            const kelas = parts[2].replace(/"/g, '').trim();
+            if(nisn && nama && !siswaData.find(s => s.nisn === nisn)) {
+              siswaData.push({ nisn, nama, kelas, foto: 'https://placehold.co/100x120/indigo/white?text=' + encodeURIComponent(nama.charAt(0)) });
               count++;
             }
           }
